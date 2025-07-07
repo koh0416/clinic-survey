@@ -1,0 +1,142 @@
+<!doctype html><meta charset="utf-8">
+<title>林整形外科クリニック アンケート</title>
+<style>
+ body{font-family:sans-serif;max-width:620px;margin:20px auto;padding:0 12px;}
+ h2{margin:18px 0 6px;font-size:1.1rem}
+ .need::after{content:" ※";color:red}
+ textarea{width:100%;height:90px}
+ button{margin-top:20px;padding:10px 22px;font-size:1rem;cursor:pointer}
+ #result{display:none;text-align:center}
+</style>
+
+<h1>ご来院アンケート</h1>
+
+<!-- ======= ① アンケートフォーム ======= -->
+<div id="formArea">
+
+  <!-- Q1 -->
+  <h2 class="need">本日はどのような内容でご来院されましたか？</h2>
+  <div id="q1">
+    <label><input type="radio" name="visit" value="首・肩・腰の痛み"> 首・肩・腰の痛み</label><br>
+    <label><input type="radio" name="visit" value="手・足の痛み"> 手・足の痛み</label><br>
+    <label><input type="radio" name="visit" value="怪我"> 怪我</label><br>
+    <label><input type="radio" name="visit" value="小児整形外科"> 小児整形外科</label><br>
+    <label><input type="radio" name="visit" value="関節リウマチ"> 関節リウマチ</label><br>
+    <label><input type="radio" name="visit" value="骨粗しょう症"> 骨粗しょう症</label><br>
+    <label><input type="radio" name="visit" value="その他"> その他</label>
+  </div>
+
+  <!-- Q2 -->
+  <h2 class="need">当院を何で知っていただけましたか？</h2>
+  <div id="q2">
+    <label><input type="radio" name="disc" value="ホームページ"> ホームページ</label><br>
+    <label><input type="radio" name="disc" value="Googleマップ"> Googleマップ</label><br>
+    <label><input type="radio" name="disc" value="EPARK"> EPARK</label><br>
+    <label><input type="radio" name="disc" value="SNS"> SNS（Instagram、Facebook、X）</label><br>
+    <label><input type="radio" name="disc" value="知人の紹介"> 知人の紹介</label><br>
+    <label><input type="radio" name="disc" value="近所・通りすがり"> 近所・通りすがり</label><br>
+    <label><input type="radio" name="disc" value="その他"> その他</label>
+  </div>
+
+  <!-- Q3 -->
+  <h2 class="need">数あるクリニックの中で、何故当院をお選びいただけましたか？（複数選択可）</h2>
+  <div id="q3">
+    <label><input type="checkbox" value="当院の雰囲気や空間"> 当院の雰囲気や空間</label><br>
+    <label><input type="checkbox" value="ドクターの経験や実績"> ドクターの経験や実績</label><br>
+    <label><input type="checkbox" value="インターネットの口コミを見て"> インターネットの口コミを見て</label><br>
+    <label><input type="checkbox" value="紹介されたから"> 紹介されたから</label><br>
+    <label><input type="checkbox" value="通いやすいから（場所）"> 通いやすいから（場所）</label><br>
+    <label><input type="checkbox" value="通いやすいから（診療時間）"> 通いやすいから（診療時間）</label><br>
+    <label><input type="checkbox" value="スタッフの対応が良い"> スタッフの対応が良い</label><br>
+    <label><input type="checkbox" value="その他"> その他</label>
+  </div>
+
+  <!-- Q4 -->
+  <h2 class="need">林整形外科クリニックをお知り合いなどにおすすめしたいと思いますか？</h2>
+  <div id="q4">
+    <label><input type="radio" name="reco" value="とても紹介したい"> とても紹介したい</label><br>
+    <label><input type="radio" name="reco" value="紹介したい"> 紹介したい</label><br>
+    <label><input type="radio" name="reco" value="紹介したくない"> 紹介したくない</label><br>
+    <label><input type="radio" name="reco" value="とても紹介したくない"> とても紹介したくない</label>
+  </div>
+
+  <!-- コメント -->
+  <h2>お勧めするポイント（任意）</h2>
+  <textarea id="comment" placeholder="例）手首が痛くて受診しました。説明がわかりやすく、とても丁寧に診察してくれます。周りにもおすすめできる整形外科です。"></textarea>
+
+  <button id="sendBtn">送信</button>
+</div>
+
+<!-- ======= ② 結果表示エリア ======= -->
+<div id="result">
+  <p id="msg"></p>
+  <button id="copyGoBtn" style="display:none;">コピーして Google へ</button>
+</div>
+
+<script>
+/* ▼▼▼ 自分用設定 ▼▼▼ */
+const WEBHOOK   = 'https://script.google.com/macros/s/AKfycbx0Nif2_zr-2zEX_5Eww4SfJwmIaZk59gAQuWykkTJ-CmYP--eN7Hzi5CBxIDJzdZ3F/exec';
+const GP_REVIEW = 'https://g.page/r/CewuGlaFy9XYEBM/review';
+const SAMPLE    = '例）腰が痛くなり受診しました。説明もわかりやすく、とても丁寧に診察してくれます。周りにもおすすめできる整形外科です。';
+/* ▲▲▲ ここまで ▲▲▲ */
+
+const qs = s => document.querySelector(s);
+const getRadio = name => qs(`input[name="${name}"]:checked`)?.value || '';
+const getChecks = id => [...qsAll(`#${id} input:checked`)].map(c=>c.value);
+function qsAll(sel){return [...document.querySelectorAll(sel)];}
+
+/* 紹介意向が高ければ例文自動入力 */
+qsAll('#q4 input').forEach(r=>{
+  r.onchange=()=>{
+    const txt=qs('#comment');
+    if(r.value.includes('紹介したい')) txt.value=SAMPLE;
+    else if(txt.value===SAMPLE) txt.value='';
+  };
+});
+
+qs('#sendBtn').onclick = async () => {
+  const visit = getRadio('visit');
+  const disc  = getRadio('disc');
+  const reco  = getRadio('reco');
+  const choose= getChecks('q3');
+  if(!visit||!disc||!reco||!choose.length){
+    alert('必須項目が未入力です'); return;
+  }
+  const comment = qs('#comment').value.trim();
+
+  /* 送信（結果を待たずUI変更） */
+  fetch(WEBHOOK,{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({
+      visit_reason:visit,
+      discovery:disc,
+      choosing_reason:choose,
+      recommend:reco,
+      comment
+    })
+  });
+
+  /* フォームを隠し、結果エリアを表示 */
+  qs('#formArea').style.display='none';
+  qs('#result').style.display='block';
+
+  /* 低評価／高評価で分岐 */
+  const msg = qs('#msg');
+  const btn = qs('#copyGoBtn');
+
+  if(reco.includes('紹介したい')){          // 高評価
+    msg.textContent='アンケートにご協力ありがとうございました。もしよろしければ、Google への口コミ投稿にもご協力お願いします！';
+    btn.style.display='inline-block';
+    btn.onclick = async ()=>{
+      if(comment){
+        try{ await navigator.clipboard.writeText(comment); }catch(e){}
+      }
+      location.href = GP_REVIEW;             // Google 口コミへジャンプ
+    };
+  }else{                                     // 低評価
+    msg.textContent='アンケートにご協力ありがとうございました。';
+    btn.style.display='none';
+  }
+};
+</script>

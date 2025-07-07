@@ -107,7 +107,8 @@ qs('#sendBtn').onclick = async () => {
   /* 送信（結果を待たずUI変更） */
   fetch(WEBHOOK,{
     method:'POST',
-    headers:{'Content-Type':'application/json'},
+    mode:'no-cors',
+    headers:{'Content-Type':'text/plain'},
     body:JSON.stringify({
       visit_reason:visit,
       discovery:disc,

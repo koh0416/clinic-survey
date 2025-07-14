@@ -1,12 +1,196 @@
 <!doctype html><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>林整形外科クリニック アンケート</title>
 <style>
- body{font-family:sans-serif;max-width:620px;margin:20px auto;padding:0 12px;}
- h2{margin:18px 0 6px;font-size:1.1rem}
- .need::after{content:" ※";color:red}
- textarea{width:100%;height:90px}
- button{margin-top:20px;padding:10px 22px;font-size:1rem;cursor:pointer}
- #result{display:none;text-align:center}
+ body{
+   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+   max-width: 620px;
+   margin: 0 auto;
+   padding: 16px;
+   background-color: #f8f9fa;
+   line-height: 1.6;
+ }
+ 
+ h1{
+   text-align: center;
+   color: #2c3e50;
+   margin-bottom: 24px;
+   font-size: 1.5rem;
+ }
+ 
+ h2{
+   margin: 24px 0 12px;
+   font-size: 1.1rem;
+   color: #34495e;
+   font-weight: 600;
+ }
+ 
+ .need::after{
+   content: " ※必須";
+   color: #e74c3c;
+   font-weight: bold;
+ }
+ 
+ /* ラジオボタン・チェックボックスのスタイル */
+ .option-group {
+   display: flex;
+   flex-direction: column;
+   gap: 8px;
+   margin-bottom: 20px;
+ }
+ 
+ .option-item {
+   position: relative;
+ }
+ 
+ .option-item input {
+   position: absolute;
+   opacity: 0;
+   cursor: pointer;
+ }
+ 
+ .option-label {
+   display: block;
+   padding: 12px 16px;
+   background: white;
+   border: 2px solid #e1e8ed;
+   border-radius: 8px;
+   cursor: pointer;
+   transition: all 0.2s ease;
+   font-size: 0.95rem;
+   position: relative;
+   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+ }
+ 
+ .option-label:hover {
+   border-color: #3498db;
+   background-color: #f8fbff;
+ }
+ 
+ .option-item input:checked + .option-label {
+   border-color: #3498db;
+   background-color: #e3f2fd;
+   color: #1976d2;
+   font-weight: 500;
+ }
+ 
+ /* チェックボックス用（複数選択）の見た目調整 */
+ .option-item input[type="checkbox"]:checked + .option-label::after {
+   content: "✓";
+   position: absolute;
+   right: 12px;
+   top: 50%;
+   transform: translateY(-50%);
+   color: #1976d2;
+   font-weight: bold;
+   font-size: 1.2rem;
+ }
+ 
+ /* ラジオボタン用（単一選択）の見た目調整 */
+ .option-item input[type="radio"]:checked + .option-label::after {
+   content: "●";
+   position: absolute;
+   right: 12px;
+   top: 50%;
+   transform: translateY(-50%);
+   color: #1976d2;
+   font-size: 1rem;
+ }
+ 
+ textarea {
+   width: 100%;
+   min-height: 100px;
+   padding: 12px;
+   border: 2px solid #e1e8ed;
+   border-radius: 8px;
+   font-family: inherit;
+   font-size: 0.95rem;
+   resize: vertical;
+   box-sizing: border-box;
+   background: white;
+ }
+ 
+ textarea:focus {
+   outline: none;
+   border-color: #3498db;
+ }
+ 
+ .example-text {
+   font-size: 0.85rem;
+   color: #7f8c8d;
+   margin-bottom: 8px;
+   font-style: italic;
+   display: none;
+ }
+ 
+ button {
+   width: 100%;
+   margin-top: 24px;
+   padding: 14px 20px;
+   font-size: 1.1rem;
+   font-weight: 600;
+   cursor: pointer;
+   border: none;
+   border-radius: 8px;
+   background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+   color: white;
+   transition: all 0.2s ease;
+   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+ }
+ 
+ button:hover {
+   transform: translateY(-1px);
+   box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+ }
+ 
+ button:active {
+   transform: translateY(0);
+ }
+ 
+ #result {
+   display: none;
+   text-align: center;
+   background: white;
+   padding: 24px;
+   border-radius: 12px;
+   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+ }
+ 
+ #result p {
+   font-size: 1.1rem;
+   margin-bottom: 20px;
+   color: #2c3e50;
+ }
+ 
+ #copyGoBtn {
+   background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+   margin-top: 16px;
+ }
+ 
+ /* スマホ対応 */
+ @media (max-width: 480px) {
+   body {
+     padding: 12px;
+   }
+   
+   h1 {
+     font-size: 1.3rem;
+   }
+   
+   h2 {
+     font-size: 1rem;
+   }
+   
+   .option-label {
+     padding: 14px 12px;
+     font-size: 0.9rem;
+   }
+   
+   button {
+     padding: 16px 20px;
+     font-size: 1rem;
+   }
+ }
 </style>
 
 <h1>ご来院アンケート</h1>
@@ -16,53 +200,132 @@
 
   <!-- Q1 -->
   <h2 class="need">本日はどのような内容でご来院されましたか？</h2>
-  <div id="q1">
-    <label><input type="radio" name="visit" value="首・肩・腰の痛み"> 首・肩・腰の痛み</label><br>
-    <label><input type="radio" name="visit" value="手・足の痛み"> 手・足の痛み</label><br>
-    <label><input type="radio" name="visit" value="怪我"> 怪我</label><br>
-    <label><input type="radio" name="visit" value="小児整形外科"> 小児整形外科</label><br>
-    <label><input type="radio" name="visit" value="関節リウマチ"> 関節リウマチ</label><br>
-    <label><input type="radio" name="visit" value="骨粗しょう症"> 骨粗しょう症</label><br>
-    <label><input type="radio" name="visit" value="その他"> その他</label>
+  <div class="option-group" id="q1">
+    <div class="option-item">
+      <input type="radio" name="visit" value="首・肩・腰の痛み" id="visit1">
+      <label class="option-label" for="visit1">首・肩・腰の痛み</label>
+    </div>
+    <div class="option-item">
+      <input type="radio" name="visit" value="手・足の痛み" id="visit2">
+      <label class="option-label" for="visit2">手・足の痛み</label>
+    </div>
+    <div class="option-item">
+      <input type="radio" name="visit" value="怪我" id="visit3">
+      <label class="option-label" for="visit3">怪我</label>
+    </div>
+    <div class="option-item">
+      <input type="radio" name="visit" value="小児整形外科" id="visit4">
+      <label class="option-label" for="visit4">小児整形外科</label>
+    </div>
+    <div class="option-item">
+      <input type="radio" name="visit" value="関節リウマチ" id="visit5">
+      <label class="option-label" for="visit5">関節リウマチ</label>
+    </div>
+    <div class="option-item">
+      <input type="radio" name="visit" value="骨粗しょう症" id="visit6">
+      <label class="option-label" for="visit6">骨粗しょう症</label>
+    </div>
+    <div class="option-item">
+      <input type="radio" name="visit" value="その他" id="visit7">
+      <label class="option-label" for="visit7">その他</label>
+    </div>
   </div>
 
   <!-- Q2 -->
   <h2 class="need">当院を何で知っていただけましたか？</h2>
-  <div id="q2">
-    <label><input type="radio" name="disc" value="ホームページ"> ホームページ</label><br>
-    <label><input type="radio" name="disc" value="Googleマップ"> Googleマップ</label><br>
-    <label><input type="radio" name="disc" value="EPARK"> EPARK</label><br>
-    <label><input type="radio" name="disc" value="SNS"> SNS（Instagram、Facebook、X）</label><br>
-    <label><input type="radio" name="disc" value="知人の紹介"> 知人の紹介</label><br>
-    <label><input type="radio" name="disc" value="近所・通りすがり"> 近所・通りすがり</label><br>
-    <label><input type="radio" name="disc" value="その他"> その他</label>
+  <div class="option-group" id="q2">
+    <div class="option-item">
+      <input type="radio" name="disc" value="ホームページ" id="disc1">
+      <label class="option-label" for="disc1">ホームページ</label>
+    </div>
+    <div class="option-item">
+      <input type="radio" name="disc" value="Googleマップ" id="disc2">
+      <label class="option-label" for="disc2">Googleマップ</label>
+    </div>
+    <div class="option-item">
+      <input type="radio" name="disc" value="EPARK" id="disc3">
+      <label class="option-label" for="disc3">EPARK</label>
+    </div>
+    <div class="option-item">
+      <input type="radio" name="disc" value="SNS" id="disc4">
+      <label class="option-label" for="disc4">SNS（Instagram、Facebook、X）</label>
+    </div>
+    <div class="option-item">
+      <input type="radio" name="disc" value="知人の紹介" id="disc5">
+      <label class="option-label" for="disc5">知人の紹介</label>
+    </div>
+    <div class="option-item">
+      <input type="radio" name="disc" value="近所・通りすがり" id="disc6">
+      <label class="option-label" for="disc6">近所・通りすがり</label>
+    </div>
+    <div class="option-item">
+      <input type="radio" name="disc" value="その他" id="disc7">
+      <label class="option-label" for="disc7">その他</label>
+    </div>
   </div>
 
   <!-- Q3 -->
   <h2 class="need">数あるクリニックの中で、何故当院をお選びいただけましたか？（複数選択可）</h2>
-  <div id="q3">
-    <label><input type="checkbox" value="当院の雰囲気や空間"> 当院の雰囲気や空間</label><br>
-    <label><input type="checkbox" value="ドクターの経験や実績"> ドクターの経験や実績</label><br>
-    <label><input type="checkbox" value="インターネットの口コミを見て"> インターネットの口コミを見て</label><br>
-    <label><input type="checkbox" value="紹介されたから"> 紹介されたから</label><br>
-    <label><input type="checkbox" value="通いやすいから（場所）"> 通いやすいから（場所）</label><br>
-    <label><input type="checkbox" value="通いやすいから（診療時間）"> 通いやすいから（診療時間）</label><br>
-    <label><input type="checkbox" value="スタッフの対応が良い"> スタッフの対応が良い</label><br>
-    <label><input type="checkbox" value="その他"> その他</label>
+  <div class="option-group" id="q3">
+    <div class="option-item">
+      <input type="checkbox" value="当院の雰囲気や空間" id="choose1">
+      <label class="option-label" for="choose1">当院の雰囲気や空間</label>
+    </div>
+    <div class="option-item">
+      <input type="checkbox" value="ドクターの経験や実績" id="choose2">
+      <label class="option-label" for="choose2">ドクターの経験や実績</label>
+    </div>
+    <div class="option-item">
+      <input type="checkbox" value="インターネットの口コミを見て" id="choose3">
+      <label class="option-label" for="choose3">インターネットの口コミを見て</label>
+    </div>
+    <div class="option-item">
+      <input type="checkbox" value="紹介されたから" id="choose4">
+      <label class="option-label" for="choose4">紹介されたから</label>
+    </div>
+    <div class="option-item">
+      <input type="checkbox" value="通いやすいから（場所）" id="choose5">
+      <label class="option-label" for="choose5">通いやすいから（場所）</label>
+    </div>
+    <div class="option-item">
+      <input type="checkbox" value="通いやすいから（診療時間）" id="choose6">
+      <label class="option-label" for="choose6">通いやすいから（診療時間）</label>
+    </div>
+    <div class="option-item">
+      <input type="checkbox" value="スタッフの対応が良い" id="choose7">
+      <label class="option-label" for="choose7">スタッフの対応が良い</label>
+    </div>
+    <div class="option-item">
+      <input type="checkbox" value="その他" id="choose8">
+      <label class="option-label" for="choose8">その他</label>
+    </div>
   </div>
 
   <!-- Q4 -->
   <h2 class="need">林整形外科クリニックをお知り合いなどにおすすめしたいと思いますか？</h2>
-  <div id="q4">
-    <label><input type="radio" name="reco" value="とても紹介したい"> とても紹介したい</label><br>
-    <label><input type="radio" name="reco" value="紹介したい"> 紹介したい</label><br>
-    <label><input type="radio" name="reco" value="紹介したくない"> 紹介したくない</label><br>
-    <label><input type="radio" name="reco" value="とても紹介したくない"> とても紹介したくない</label>
+  <div class="option-group" id="q4">
+    <div class="option-item">
+      <input type="radio" name="reco" value="とても紹介したい" id="reco1">
+      <label class="option-label" for="reco1">とても紹介したい</label>
+    </div>
+    <div class="option-item">
+      <input type="radio" name="reco" value="紹介したい" id="reco2">
+      <label class="option-label" for="reco2">紹介したい</label>
+    </div>
+    <div class="option-item">
+      <input type="radio" name="reco" value="紹介したくない" id="reco3">
+      <label class="option-label" for="reco3">紹介したくない</label>
+    </div>
+    <div class="option-item">
+      <input type="radio" name="reco" value="とても紹介したくない" id="reco4">
+      <label class="option-label" for="reco4">とても紹介したくない</label>
+    </div>
   </div>
 
   <!-- コメント -->
   <h2>お勧めするポイント（任意）</h2>
-  <textarea id="comment" placeholder="例）手首が痛くて受診しました。説明がわかりやすく、とても丁寧に診察してくれます。周りにもおすすめできる整形外科です。"></textarea>
+  <div class="example-text" id="exampleText"></div>
+  <textarea id="comment" placeholder="ご自由にお書きください"></textarea>
 
   <button id="sendBtn">送信</button>
 </div>
@@ -77,7 +340,8 @@
 /* ▼▼▼ 自分用設定 ▼▼▼ */
 const WEBHOOK   = 'https://script.google.com/macros/s/AKfycbx0Nif2_zr-2zEX_5Eww4SfJwmIaZk59gAQuWykkTJ-CmYP--eN7Hzi5CBxIDJzdZ3F/exec';
 const GP_REVIEW = 'https://g.page/r/CewuGlaFy9XYEBM/review';
-const SAMPLE    = '例）腰が痛くなり受診しました。説明もわかりやすく、とても丁寧に診察してくれます。周りにもおすすめできる整形外科です。';
+const POSITIVE_SAMPLE = '例）腰が痛くなり受診しました。説明もわかりやすく、とても丁寧に診察してくれます。周りにもおすすめできる整形外科です。';
+const NEGATIVE_SAMPLE = '例）受付の対応が残念だった。もう少し待ち時間の説明があったら、もっと良かったと思う。';
 /* ▲▲▲ ここまで ▲▲▲ */
 
 const qs = s => document.querySelector(s);
@@ -85,12 +349,17 @@ const getRadio = name => qs(`input[name="${name}"]:checked`)?.value || '';
 const getChecks = id => [...qsAll(`#${id} input:checked`)].map(c=>c.value);
 function qsAll(sel){return [...document.querySelectorAll(sel)];}
 
-/* 紹介意向が高ければ例文自動入力 */
+/* 紹介意向に応じて例文を表示 */
 qsAll('#q4 input').forEach(r=>{
   r.onchange=()=>{
-    const txt=qs('#comment');
-    if(r.value.includes('紹介したい')) txt.value=SAMPLE;
-    else if(txt.value===SAMPLE) txt.value='';
+    const exampleText = qs('#exampleText');
+    if(r.value.includes('紹介したい')) {
+      exampleText.textContent = POSITIVE_SAMPLE;
+      exampleText.style.display = 'block';
+    } else {
+      exampleText.textContent = NEGATIVE_SAMPLE;
+      exampleText.style.display = 'block';
+    }
   };
 });
 

@@ -98,20 +98,23 @@
    font-size: 1rem;
  }
  
- textarea {
+ textarea, input[type="text"] {
    width: 100%;
-   min-height: 100px;
    padding: 12px;
    border: 2px solid #e1e8ed;
    border-radius: 8px;
    font-family: inherit;
    font-size: 1.425rem;
-   resize: vertical;
    box-sizing: border-box;
    background: white;
  }
  
- textarea:focus {
+ textarea {
+   min-height: 100px;
+   resize: vertical;
+ }
+ 
+ textarea:focus, input[type="text"]:focus {
    outline: none;
    border-color: #3498db;
  }
@@ -187,7 +190,7 @@
      font-size: 1.1rem;
    }
    
-   textarea {
+   textarea, input[type="text"] {
      font-size: 1.1rem;
    }
 
@@ -328,9 +331,13 @@
   </div>
 
   <!-- コメント -->
-  <h2>お勧めするポイント（任意）</h2>
+  <h2>おすすめするポイント（任意）</h2>
   <div class="example-text" id="exampleText"></div>
   <textarea id="comment" placeholder="ご自由にお書きください"></textarea>
+
+  <!-- お名前 -->
+  <h2>お名前（任意）</h2>
+  <input type="text" id="name" placeholder="匿名でも回答できます">
 
   <button id="sendBtn">送信</button>
 </div>
@@ -377,6 +384,7 @@ qs('#sendBtn').onclick = async () => {
     alert('必須項目が未入力です'); return;
   }
   const comment = qs('#comment').value.trim();
+  const name = qs('#name').value.trim();
 
   /* 送信（結果を待たずUI変更） */
   fetch(WEBHOOK,{
@@ -388,7 +396,8 @@ qs('#sendBtn').onclick = async () => {
       discovery:disc,
       choosing_reason:choose,
       recommend:reco,
-      comment
+      comment,
+      name
     })
   });
 
@@ -396,7 +405,7 @@ qs('#sendBtn').onclick = async () => {
   qs('#formArea').style.display='none';
   qs('#result').style.display='block';
 
-  /* 低評価／高評価で分岐 */
+  /* 低評価？高評価で分岐 */
   const msg = qs('#msg');
   const btn = qs('#copyGoBtn');
 

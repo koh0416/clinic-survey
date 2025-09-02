@@ -388,18 +388,19 @@ qs('#sendBtn').onclick = async () => {
 
   /* 送信（結果を待たずUI変更） */
   fetch(WEBHOOK,{
-    method:'POST',
-    mode:'no-cors',
-    headers:{'Content-Type':'text/plain'},
-    body:JSON.stringify({
-      visit_reason:visit,
-      discovery:disc,
-      choosing_reason:choose,
-      recommend:reco,
-      comment,
-      name
-    })
-  });
+  method:'POST',
+  mode:'no-cors', // そのままでOK（レスポンスは読めなくても送信はされます）
+  headers:{'Content-Type':'application/json'}, // ← ここを application/json に
+  body:JSON.stringify({
+    visit_reason: visit,
+    discovery:    disc,
+    choosing_reason: choose,
+    recommend:    reco,
+    comment,
+    name
+  })
+});
+
 
   /* フォームを隠し、結果エリアを表示 */
   qs('#formArea').style.display='none';

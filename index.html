@@ -350,7 +350,7 @@
 
 <script>
 /* ▼▼▼ 自分用設定 ▼▼▼ */
-const WEBHOOK   = 'https://script.google.com/macros/s/AKfycbw8D0kcbeQQ8bUE_eFdUi6XbdYe40Yj9uOidKC6SzgRTthn-2t4YVSgR4NHttYuxgDC/exec';
+const WEBHOOK   = 'https://script.google.com/macros/s/AKfycbx0Nif2_zr-2zEX_5Eww4SfJwmIaZk59gAQuWykkTJ-CmYP--eN7Hzi5CBxIDJzdZ3F/exec';
 const GP_REVIEW = 'https://g.page/r/CewuGlaFy9XYEBM/review';
 const POSITIVE_SAMPLE = '例）腰が痛くなり受診しました。説明もわかりやすく、とても丁寧に診察してくれます。周りにもおすすめできる整形外科です。';
 const NEGATIVE_SAMPLE = '例）受付の対応が残念だった。もう少し待ち時間の説明があったら、もっと良かったと思う。';
@@ -387,20 +387,19 @@ qs('#sendBtn').onclick = async () => {
   const name = qs('#name').value.trim();
 
   /* 送信（結果を待たずUI変更） */
-  fetch(WEBHOOK, {
-  method: 'POST',
-  mode: 'no-cors', // そのままでOK（レスポンスは読めなくても送れる）
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({
-    visit_reason: visit || '',
-    discovery: disc || '',
-    choosing_reason: choose, // 配列のままでOK（GAS側でjoin）
-    recommend: reco || '',
-    comment: comment || '',
-    name: name || ''         // 任意
-  })
-});
-
+  fetch(WEBHOOK,{
+    method:'POST',
+    mode:'no-cors',
+    headers:{'Content-Type':'text/plain'},
+    body:JSON.stringify({
+      visit_reason:visit,
+      discovery:disc,
+      choosing_reason:choose,
+      recommend:reco,
+      comment,
+      name
+    })
+  });
 
   /* フォームを隠し、結果エリアを表示 */
   qs('#formArea').style.display='none';

@@ -10,6 +10,34 @@
    background-color: #f8f9fa;
    line-height: 1.6;
  }
+
+ /* 言語切り替えボタン */
+ .lang-switcher {
+   display: flex;
+   justify-content: flex-end;
+   margin-bottom: 8px;
+ }
+ .lang-switcher button {
+   width: auto;
+   margin: 0;
+   padding: 4px 12px;
+   font-size: 0.8rem;
+   font-weight: 500;
+   border-radius: 20px;
+   background: white;
+   color: #7f8c8d;
+   border: 1.5px solid #d5dde2;
+   box-shadow: none;
+   transition: all 0.15s ease;
+   cursor: pointer;
+ }
+ .lang-switcher button:hover {
+   background: #f0f4f8;
+   border-color: #3498db;
+   color: #3498db;
+   transform: none;
+   box-shadow: none;
+ }
  
  h1{
    text-align: center;
@@ -30,6 +58,9 @@
    color: #e74c3c;
    font-weight: bold;
    font-size: 1.1rem;
+ }
+ .need.en::after{
+   content: " *Required";
  }
  
  /* ラジオボタン・チェックボックスのスタイル */
@@ -75,7 +106,6 @@
    font-weight: 500;
  }
  
- /* チェックボックス用（複数選択）の見た目調整 */
  .option-item input[type="checkbox"]:checked + .option-label::after {
    content: "✓";
    position: absolute;
@@ -87,7 +117,6 @@
    font-size: 1.2rem;
  }
  
- /* ラジオボタン用（単一選択）の見た目調整 */
  .option-item input[type="radio"]:checked + .option-label::after {
    content: "●";
    position: absolute;
@@ -171,172 +200,79 @@
    margin-top: 16px;
  }
  
- /* スマホ対応 */
  @media (max-width: 480px) {
-   body {
-     padding: 12px;
-   }
-   
-   h1 {
-     font-size: 1.6rem;
-   }
-   
-   h2 {
-     font-size: 1.3rem;
-   }
-   
-   .option-label {
-     padding: 14px 12px;
-     font-size: 1.1rem;
-   }
-   
-   textarea, input[type="text"] {
-     font-size: 1.1rem;
-   }
-
-   button {
-     padding: 16px 20px;
-     font-size: 1rem;
-   }
+   body { padding: 12px; }
+   h1 { font-size: 1.6rem; }
+   h2 { font-size: 1.3rem; }
+   .option-label { padding: 14px 12px; font-size: 1.1rem; }
+   textarea, input[type="text"] { font-size: 1.1rem; }
+   button { padding: 16px 20px; font-size: 1rem; }
  }
 </style>
 
-<h1>林整形外科クリニック<br>ご来院アンケート</h1>
+<!-- 言語切り替えボタン -->
+<div class="lang-switcher">
+  <button id="langBtn" onclick="toggleLang()">English</button>
+</div>
+
+<h1 id="siteTitle">林整形外科クリニック<br>ご来院アンケート</h1>
 
 <!-- ======= ① アンケートフォーム ======= -->
 <div id="formArea">
 
   <!-- Q1 -->
-  <h2 class="need">本日はどのような内容でご来院されましたか？</h2>
+  <h2 class="need" id="q1label">本日はどのような内容でご来院されましたか？</h2>
   <div class="option-group" id="q1">
-    <div class="option-item">
-      <input type="radio" name="visit" value="首・肩・腰の痛み" id="visit1">
-      <label class="option-label" for="visit1">首・肩・腰の痛み</label>
-    </div>
-    <div class="option-item">
-      <input type="radio" name="visit" value="手・足の痛み" id="visit2">
-      <label class="option-label" for="visit2">手・足の痛み</label>
-    </div>
-    <div class="option-item">
-      <input type="radio" name="visit" value="怪我" id="visit3">
-      <label class="option-label" for="visit3">怪我</label>
-    </div>
-    <div class="option-item">
-      <input type="radio" name="visit" value="小児整形外科" id="visit4">
-      <label class="option-label" for="visit4">小児整形外科</label>
-    </div>
-    <div class="option-item">
-      <input type="radio" name="visit" value="関節リウマチ" id="visit5">
-      <label class="option-label" for="visit5">関節リウマチ</label>
-    </div>
-    <div class="option-item">
-      <input type="radio" name="visit" value="骨粗しょう症" id="visit6">
-      <label class="option-label" for="visit6">骨粗しょう症</label>
-    </div>
-    <div class="option-item">
-      <input type="radio" name="visit" value="その他" id="visit7">
-      <label class="option-label" for="visit7">その他</label>
-    </div>
+    <div class="option-item"><input type="radio" name="visit" value="首・肩・腰の痛み" id="visit1"><label class="option-label" for="visit1" data-ja="首・肩・腰の痛み" data-en="Neck / Shoulder / Back Pain">首・肩・腰の痛み</label></div>
+    <div class="option-item"><input type="radio" name="visit" value="手・足の痛み" id="visit2"><label class="option-label" for="visit2" data-ja="手・足の痛み" data-en="Hand / Foot / Leg Pain">手・足の痛み</label></div>
+    <div class="option-item"><input type="radio" name="visit" value="怪我" id="visit3"><label class="option-label" for="visit3" data-ja="怪我" data-en="Injury / Fracture">怪我</label></div>
+    <div class="option-item"><input type="radio" name="visit" value="小児整形外科" id="visit4"><label class="option-label" for="visit4" data-ja="小児整形外科" data-en="Pediatric Orthopedics">小児整形外科</label></div>
+    <div class="option-item"><input type="radio" name="visit" value="関節リウマチ" id="visit5"><label class="option-label" for="visit5" data-ja="関節リウマチ" data-en="Rheumatoid Arthritis">関節リウマチ</label></div>
+    <div class="option-item"><input type="radio" name="visit" value="骨粗しょう症" id="visit6"><label class="option-label" for="visit6" data-ja="骨粗しょう症" data-en="Osteoporosis">骨粗しょう症</label></div>
+    <div class="option-item"><input type="radio" name="visit" value="その他" id="visit7"><label class="option-label" for="visit7" data-ja="その他" data-en="Other">その他</label></div>
   </div>
 
   <!-- Q2 -->
-  <h2 class="need">当院を何で知っていただけましたか？</h2>
+  <h2 class="need" id="q2label">当院を何で知っていただけましたか？</h2>
   <div class="option-group" id="q2">
-    <div class="option-item">
-      <input type="radio" name="disc" value="ホームページ" id="disc1">
-      <label class="option-label" for="disc1">ホームページ</label>
-    </div>
-    <div class="option-item">
-      <input type="radio" name="disc" value="Googleマップ" id="disc2">
-      <label class="option-label" for="disc2">Googleマップ</label>
-    </div>
-    <div class="option-item">
-      <input type="radio" name="disc" value="melmo" id="disc3">
-      <label class="option-label" for="disc3">melmo</label>
-    </div>
-    <div class="option-item">
-      <input type="radio" name="disc" value="SNS" id="disc4">
-      <label class="option-label" for="disc4">SNS（Instagram、Facebook、X）</label>
-    </div>
-    <div class="option-item">
-      <input type="radio" name="disc" value="知人の紹介" id="disc5">
-      <label class="option-label" for="disc5">知人の紹介</label>
-    </div>
-    <div class="option-item">
-      <input type="radio" name="disc" value="近所・通りすがり" id="disc6">
-      <label class="option-label" for="disc6">近所・通りすがり</label>
-    </div>
-    <div class="option-item">
-      <input type="radio" name="disc" value="その他" id="disc7">
-      <label class="option-label" for="disc7">その他</label>
-    </div>
+    <div class="option-item"><input type="radio" name="disc" value="ホームページ" id="disc1"><label class="option-label" for="disc1" data-ja="ホームページ" data-en="Official Website">ホームページ</label></div>
+    <div class="option-item"><input type="radio" name="disc" value="Googleマップ" id="disc2"><label class="option-label" for="disc2" data-ja="Googleマップ" data-en="Google Maps">Googleマップ</label></div>
+    <div class="option-item"><input type="radio" name="disc" value="melmo" id="disc3"><label class="option-label" for="disc3" data-ja="melmo" data-en="melmo">melmo</label></div>
+    <div class="option-item"><input type="radio" name="disc" value="SNS" id="disc4"><label class="option-label" for="disc4" data-ja="SNS（Instagram、Facebook、X）" data-en="Social Media (Instagram / Facebook / X)">SNS（Instagram、Facebook、X）</label></div>
+    <div class="option-item"><input type="radio" name="disc" value="知人の紹介" id="disc5"><label class="option-label" for="disc5" data-ja="知人の紹介" data-en="Referred by a Friend / Acquaintance">知人の紹介</label></div>
+    <div class="option-item"><input type="radio" name="disc" value="近所・通りすがり" id="disc6"><label class="option-label" for="disc6" data-ja="近所・通りすがり" data-en="Nearby / Passed By">近所・通りすがり</label></div>
+    <div class="option-item"><input type="radio" name="disc" value="その他" id="disc7"><label class="option-label" for="disc7" data-ja="その他" data-en="Other">その他</label></div>
   </div>
 
   <!-- Q3 -->
-  <h2 class="need">数あるクリニックの中で、何故当院をお選びいただけましたか？（複数選択可）</h2>
+  <h2 class="need" id="q3label">数あるクリニックの中で、何故当院をお選びいただけましたか？（複数選択可）</h2>
   <div class="option-group" id="q3">
-    <div class="option-item">
-      <input type="checkbox" value="当院の雰囲気や空間" id="choose1">
-      <label class="option-label" for="choose1">当院の雰囲気や空間</label>
-    </div>
-    <div class="option-item">
-      <input type="checkbox" value="ドクターの経験や実績" id="choose2">
-      <label class="option-label" for="choose2">ドクターの経験や実績</label>
-    </div>
-    <div class="option-item">
-      <input type="checkbox" value="インターネットの口コミを見て" id="choose3">
-      <label class="option-label" for="choose3">インターネットの口コミを見て</label>
-    </div>
-    <div class="option-item">
-      <input type="checkbox" value="紹介されたから" id="choose4">
-      <label class="option-label" for="choose4">紹介されたから</label>
-    </div>
-    <div class="option-item">
-      <input type="checkbox" value="通いやすいから（場所）" id="choose5">
-      <label class="option-label" for="choose5">通いやすいから（場所）</label>
-    </div>
-    <div class="option-item">
-      <input type="checkbox" value="通いやすいから（診療時間）" id="choose6">
-      <label class="option-label" for="choose6">通いやすいから（診療時間）</label>
-    </div>
-    <div class="option-item">
-      <input type="checkbox" value="スタッフの対応が良い" id="choose7">
-      <label class="option-label" for="choose7">スタッフの対応が良い</label>
-    </div>
-    <div class="option-item">
-      <input type="checkbox" value="その他" id="choose8">
-      <label class="option-label" for="choose8">その他</label>
-    </div>
+    <div class="option-item"><input type="checkbox" value="当院の雰囲気や空間" id="choose1"><label class="option-label" for="choose1" data-ja="当院の雰囲気や空間" data-en="Clinic Atmosphere &amp; Environment">当院の雰囲気や空間</label></div>
+    <div class="option-item"><input type="checkbox" value="ドクターの経験や実績" id="choose2"><label class="option-label" for="choose2" data-ja="ドクターの経験や実績" data-en="Doctor's Experience &amp; Track Record">ドクターの経験や実績</label></div>
+    <div class="option-item"><input type="checkbox" value="インターネットの口コミを見て" id="choose3"><label class="option-label" for="choose3" data-ja="インターネットの口コミを見て" data-en="Online Reviews">インターネットの口コミを見て</label></div>
+    <div class="option-item"><input type="checkbox" value="紹介されたから" id="choose4"><label class="option-label" for="choose4" data-ja="紹介されたから" data-en="Recommended by Someone">紹介されたから</label></div>
+    <div class="option-item"><input type="checkbox" value="通いやすいから（場所）" id="choose5"><label class="option-label" for="choose5" data-ja="通いやすいから（場所）" data-en="Convenient Location">通いやすいから（場所）</label></div>
+    <div class="option-item"><input type="checkbox" value="通いやすいから（診療時間）" id="choose6"><label class="option-label" for="choose6" data-ja="通いやすいから（診療時間）" data-en="Convenient Hours">通いやすいから（診療時間）</label></div>
+    <div class="option-item"><input type="checkbox" value="スタッフの対応が良い" id="choose7"><label class="option-label" for="choose7" data-ja="スタッフの対応が良い" data-en="Friendly Staff">スタッフの対応が良い</label></div>
+    <div class="option-item"><input type="checkbox" value="その他" id="choose8"><label class="option-label" for="choose8" data-ja="その他" data-en="Other">その他</label></div>
   </div>
 
   <!-- Q4 -->
-  <h2 class="need">林整形外科クリニックをお知り合いなどにおすすめしたいと思いますか？</h2>
+  <h2 class="need" id="q4label">林整形外科クリニックをお知り合いなどにおすすめしたいと思いますか？</h2>
   <div class="option-group" id="q4">
-    <div class="option-item">
-      <input type="radio" name="reco" value="とても紹介したい" id="reco1">
-      <label class="option-label" for="reco1">とても紹介したい</label>
-    </div>
-    <div class="option-item">
-      <input type="radio" name="reco" value="紹介したい" id="reco2">
-      <label class="option-label" for="reco2">紹介したい</label>
-    </div>
-    <div class="option-item">
-      <input type="radio" name="reco" value="紹介したくない" id="reco3">
-      <label class="option-label" for="reco3">紹介したくない</label>
-    </div>
-    <div class="option-item">
-      <input type="radio" name="reco" value="とても紹介したくない" id="reco4">
-      <label class="option-label" for="reco4">とても紹介したくない</label>
-    </div>
+    <div class="option-item"><input type="radio" name="reco" value="とても紹介したい" id="reco1"><label class="option-label" for="reco1" data-ja="とても紹介したい" data-en="Definitely Would Recommend">とても紹介したい</label></div>
+    <div class="option-item"><input type="radio" name="reco" value="紹介したい" id="reco2"><label class="option-label" for="reco2" data-ja="紹介したい" data-en="Would Recommend">紹介したい</label></div>
+    <div class="option-item"><input type="radio" name="reco" value="紹介したくない" id="reco3"><label class="option-label" for="reco3" data-ja="紹介したくない" data-en="Would Not Recommend">紹介したくない</label></div>
+    <div class="option-item"><input type="radio" name="reco" value="とても紹介したくない" id="reco4"><label class="option-label" for="reco4" data-ja="とても紹介したくない" data-en="Definitely Would Not Recommend">とても紹介したくない</label></div>
   </div>
 
   <!-- コメント -->
-  <h2>おすすめするポイント（任意）</h2>
+  <h2 id="commentLabel">おすすめするポイント（任意）</h2>
   <div class="example-text" id="exampleText"></div>
   <textarea id="comment" placeholder="ご自由にお書きください"></textarea>
 
   <!-- お名前 -->
-  <h2>お名前（任意）</h2>
+  <h2 id="nameLabel">お名前（任意）</h2>
   <input type="text" id="name" placeholder="匿名でも回答できます">
 
   <button id="sendBtn">送信</button>
@@ -345,82 +281,179 @@
 <!-- ======= ② 結果表示エリア ======= -->
 <div id="result">
   <p id="msg"></p>
-  <button id="copyGoBtn" style="display:none;">コピーして Google へ</button>
+  <button id="copyGoBtn" style="display:none;"></button>
 </div>
 
 <script>
 /* ▼▼▼ 自分用設定 ▼▼▼ */
 const WEBHOOK   = 'https://script.google.com/macros/s/AKfycbzz4Nul49DMoyuP09Th7DJQC51eDFsYe_4XYFlxd-LetArxUrHVsrXIKhSSh-e2qkWM/exec';
 const GP_REVIEW = 'https://g.page/r/CewuGlaFy9XYEBM/review';
-const POSITIVE_SAMPLE = '例）腰が痛くなり受診しました。説明もわかりやすく、とても丁寧に診察してくれます。周りにもおすすめできる整形外科です。';
-const NEGATIVE_SAMPLE = '例）受付の対応が残念だった。もう少し待ち時間の説明があったら、もっと良かったと思う。';
+const POSITIVE_SAMPLE_JA = '例）腰が痛くなり受診しました。説明もわかりやすく、とても丁寧に診察してくれます。周りにもおすすめできる整形外科です。';
+const NEGATIVE_SAMPLE_JA = '例）受付の対応が残念だった。もう少し待ち時間の説明があったら、もっと良かったと思う。';
+const POSITIVE_SAMPLE_EN = 'e.g. I visited for lower back pain. The doctor explained everything clearly and the care was excellent. I would definitely recommend this clinic.';
+const NEGATIVE_SAMPLE_EN = 'e.g. The front desk service was a bit disappointing. Better communication about waiting times would have helped.';
 /* ▲▲▲ ここまで ▲▲▲ */
 
-const qs = s => document.querySelector(s);
-const getRadio = name => qs(`input[name="${name}"]:checked`)?.value || '';
-const getChecks = id => [...qsAll(`#${id} input:checked`)].map(c=>c.value);
-function qsAll(sel){return [...document.querySelectorAll(sel)];}
+/* ---------- 翻訳テーブル ---------- */
+const T = {
+  ja: {
+    pageTitle:    '林整形外科クリニック アンケート',
+    siteTitle:    '林整形外科クリニック<br>ご来院アンケート',
+    langBtn:      'English',
+    q1:    '本日はどのような内容でご来院されましたか？',
+    q2:    '当院を何で知っていただけましたか？',
+    q3:    '数あるクリニックの中で、何故当院をお選びいただけましたか？（複数選択可）',
+    q4:    '林整形外科クリニックをお知り合いなどにおすすめしたいと思いますか？',
+    commentLabel: 'おすすめするポイント（任意）',
+    commentPlaceholder: 'ご自由にお書きください',
+    nameLabel:    'お名前（任意）',
+    namePlaceholder: '匿名でも回答できます',
+    sendBtn:      '送信',
+    alertMsg:     '必須項目が未入力です',
+    resultPositive: 'アンケートにご協力ありがとうございました。もしよろしければ、Google への口コミ投稿にもご協力お願いします！',
+    resultNegative: 'アンケートにご協力ありがとうございました。',
+    copyGoBtn:    'コピーして Google へ',
+  },
+  en: {
+    pageTitle:    'Hayashi Orthopedic Clinic – Survey',
+    siteTitle:    'Hayashi Orthopedic Clinic<br>Patient Survey',
+    langBtn:      '日本語',
+    q1:    'What brought you to our clinic today?',
+    q2:    'How did you hear about us?',
+    q3:    'Why did you choose our clinic? (Multiple answers OK)',
+    q4:    'Would you recommend Hayashi Orthopedic Clinic to others?',
+    commentLabel: 'What did you like? (Optional)',
+    commentPlaceholder: 'Feel free to share your thoughts',
+    nameLabel:    'Your Name (Optional)',
+    namePlaceholder: 'Anonymous responses are welcome',
+    sendBtn:      'Submit',
+    alertMsg:     'Please answer all required questions.',
+    resultPositive: 'Thank you for completing the survey! If you have a moment, we would greatly appreciate a Google review.',
+    resultNegative: 'Thank you for completing the survey.',
+    copyGoBtn:    'Copy & Go to Google',
+  }
+};
 
-/* 紹介意向に応じて例文を表示 */
-qsAll('#q4 input').forEach(r=>{
-  r.onchange=()=>{
-    const exampleText = qs('#exampleText');
-    if(r.value.includes('紹介したい')) {
-      exampleText.textContent = POSITIVE_SAMPLE;
-      exampleText.style.display = 'block';
+let lang = 'ja';
+
+function toggleLang() {
+  lang = (lang === 'ja') ? 'en' : 'ja';
+  applyLang();
+}
+
+function applyLang() {
+  const t = T[lang];
+
+  /* ページタイトル */
+  document.title = t.pageTitle;
+
+  /* サイト見出し */
+  document.getElementById('siteTitle').innerHTML = t.siteTitle;
+
+  /* 切り替えボタン */
+  document.getElementById('langBtn').textContent = t.langBtn;
+
+  /* 質問ラベル */
+  ['q1','q2','q3','q4'].forEach(id => {
+    const el = document.getElementById(id + 'label');
+    el.childNodes[0].textContent = t[id];
+    // need::after の切り替え
+    if(lang === 'en') el.classList.add('en'); else el.classList.remove('en');
+  });
+
+  /* 選択肢ラベル（data-ja / data-en を参照） */
+  document.querySelectorAll('.option-label').forEach(label => {
+    label.innerHTML = label.dataset[lang] || label.textContent;
+  });
+
+  /* コメント・名前エリア */
+  document.getElementById('commentLabel').textContent = t.commentLabel;
+  document.getElementById('comment').placeholder = t.commentPlaceholder;
+  document.getElementById('nameLabel').textContent = t.nameLabel;
+  document.getElementById('name').placeholder = t.namePlaceholder;
+  document.getElementById('sendBtn').textContent = t.sendBtn;
+
+  /* 例文が表示中なら更新 */
+  const exEl = document.getElementById('exampleText');
+  if(exEl.style.display !== 'none' && exEl.textContent) {
+    const reco = document.querySelector('input[name="reco"]:checked')?.value || '';
+    if(reco.includes('紹介したい')) {
+      exEl.textContent = (lang === 'ja') ? POSITIVE_SAMPLE_JA : POSITIVE_SAMPLE_EN;
     } else {
-      exampleText.textContent = NEGATIVE_SAMPLE;
-      exampleText.style.display = 'block';
+      exEl.textContent = (lang === 'ja') ? NEGATIVE_SAMPLE_JA : NEGATIVE_SAMPLE_EN;
     }
+  }
+
+  /* 結果ボタンが表示中なら更新 */
+  const btn = document.getElementById('copyGoBtn');
+  if(btn.style.display !== 'none') btn.textContent = t.copyGoBtn;
+}
+
+/* ---------- イベント ---------- */
+const qs    = s => document.querySelector(s);
+const qsAll = sel => [...document.querySelectorAll(sel)];
+const getRadio  = name => qs(`input[name="${name}"]:checked`)?.value || '';
+const getChecks = id   => qsAll(`#${id} input:checked`).map(c => c.value);
+
+qsAll('#q4 input').forEach(r => {
+  r.onchange = () => {
+    const exEl = document.getElementById('exampleText');
+    if(r.value.includes('紹介したい')) {
+      exEl.textContent = (lang === 'ja') ? POSITIVE_SAMPLE_JA : POSITIVE_SAMPLE_EN;
+    } else {
+      exEl.textContent = (lang === 'ja') ? NEGATIVE_SAMPLE_JA : NEGATIVE_SAMPLE_EN;
+    }
+    exEl.style.display = 'block';
   };
 });
 
 qs('#sendBtn').onclick = async () => {
-  const visit = getRadio('visit');
-  const disc  = getRadio('disc');
-  const reco  = getRadio('reco');
-  const choose= getChecks('q3');
-  if(!visit||!disc||!reco||!choose.length){
-    alert('必須項目が未入力です'); return;
-  }
-  const comment = qs('#comment').value.trim();
-  const name = qs('#name').value.trim();
+  const visit  = getRadio('visit');
+  const disc   = getRadio('disc');
+  const reco   = getRadio('reco');
+  const choose = getChecks('q3');
 
-  /* 送信（結果を待たずUI変更） */
-  fetch(WEBHOOK,{
-    method:'POST',
-    mode:'no-cors',
-    headers:{'Content-Type':'text/plain'},
-    body:JSON.stringify({
-      visit_reason:visit,
-      discovery:disc,
-      choosing_reason:choose,
-      recommend:reco,
+  if(!visit || !disc || !reco || !choose.length) {
+    alert(T[lang].alertMsg);
+    return;
+  }
+
+  const comment = qs('#comment').value.trim();
+  const name    = qs('#name').value.trim();
+
+  fetch(WEBHOOK, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: {'Content-Type': 'text/plain'},
+    body: JSON.stringify({
+      visit_reason:    visit,
+      discovery:       disc,
+      choosing_reason: choose,
+      recommend:       reco,
       comment,
-      name
+      name,
+      lang
     })
   });
 
-  /* フォームを隠し、結果エリアを表示 */
-  qs('#formArea').style.display='none';
-  qs('#result').style.display='block';
+  qs('#formArea').style.display = 'none';
+  qs('#result').style.display   = 'block';
 
-  /* 低評価？高評価で分岐 */
+  const t   = T[lang];
   const msg = qs('#msg');
   const btn = qs('#copyGoBtn');
 
-  if(reco.includes('紹介したい')){          // 高評価
-    msg.textContent='アンケートにご協力ありがとうございました。もしよろしければ、Google への口コミ投稿にもご協力お願いします！';
-    btn.style.display='inline-block';
-    btn.onclick = async ()=>{
-      if(comment){
-        try{ await navigator.clipboard.writeText(comment); }catch(e){}
-      }
-      location.href = GP_REVIEW;             // Google 口コミへジャンプ
+  if(reco.includes('紹介したい')) {
+    msg.textContent         = t.resultPositive;
+    btn.textContent         = t.copyGoBtn;
+    btn.style.display       = 'inline-block';
+    btn.onclick = async () => {
+      if(comment) { try { await navigator.clipboard.writeText(comment); } catch(e){} }
+      location.href = GP_REVIEW;
     };
-  }else{                                     // 低評価
-    msg.textContent='アンケートにご協力ありがとうございました。';
-    btn.style.display='none';
+  } else {
+    msg.textContent   = t.resultNegative;
+    btn.style.display = 'none';
   }
 };
 </script>

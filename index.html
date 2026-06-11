@@ -1,287 +1,490 @@
-<!doctype html><meta charset="utf-8">
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>林整形外科クリニック アンケート</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&display=swap" rel="stylesheet">
 <style>
- body{
-   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-   max-width: 620px;
-   margin: 0 auto;
-   padding: 16px;
-   background-color: #f8f9fa;
-   line-height: 1.6;
- }
+:root{
+  --paper:    #F2F9F8;   /* 薄い若葉色がかった背景 */
+  --card:     #FFFFFF;
+  --ink:      #223431;   /* 深緑がかった墨色 */
+  --moss:     #5E7470;   /* 補助テキスト */
+  --pine:     #2C8C84;   /* メインの深い緑 */
+  --pine-deep:#1D6A63;
+  --leaf:     #E2F4F2;   /* 選択時の淡い緑 */
+  --line:     #D5E5E3;   /* 罫線 */
+  --alert:    #B6422C;
+  --radius:   14px;
+  --shadow:   0 1px 2px rgba(34,52,49,.05), 0 4px 16px rgba(34,52,49,.06);
+}
 
- /* 言語切り替えボタン */
- .lang-switcher {
-   display: flex;
-   justify-content: flex-end;
-   margin-bottom: 8px;
- }
- .lang-switcher button {
-   width: auto;
-   margin: 0;
-   padding: 4px 12px;
-   font-size: 0.8rem;
-   font-weight: 500;
-   border-radius: 20px;
-   background: white;
-   color: #7f8c8d;
-   border: 1.5px solid #d5dde2;
-   box-shadow: none;
-   transition: all 0.15s ease;
-   cursor: pointer;
- }
- .lang-switcher button:hover {
-   background: #f0f4f8;
-   border-color: #3498db;
-   color: #3498db;
-   transform: none;
-   box-shadow: none;
- }
- 
- h1{
-   text-align: center;
-   color: #2c3e50;
-   margin-bottom: 24px;
-   font-size: 2.25rem;
- }
- 
- h2{
-   margin: 24px 0 12px;
-   font-size: 1.65rem;
-   color: #34495e;
-   font-weight: 600;
- }
- 
- .need::after{
-   content: " ※必須";
-   color: #e74c3c;
-   font-weight: bold;
-   font-size: 1.1rem;
- }
- .need.en::after{
-   content: " *Required";
- }
- 
- /* ラジオボタン・チェックボックスのスタイル */
- .option-group {
-   display: flex;
-   flex-direction: column;
-   gap: 8px;
-   margin-bottom: 20px;
- }
- 
- .option-item {
-   position: relative;
- }
- 
- .option-item input {
-   position: absolute;
-   opacity: 0;
-   cursor: pointer;
- }
- 
- .option-label {
-   display: block;
-   padding: 12px 16px;
-   background: white;
-   border: 2px solid #e1e8ed;
-   border-radius: 8px;
-   cursor: pointer;
-   transition: all 0.2s ease;
-   font-size: 1.425rem;
-   position: relative;
-   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
- }
- 
- .option-label:hover {
-   border-color: #3498db;
-   background-color: #f8fbff;
- }
- 
- .option-item input:checked + .option-label {
-   border-color: #3498db;
-   background-color: #e3f2fd;
-   color: #1976d2;
-   font-weight: 500;
- }
- 
- .option-item input[type="checkbox"]:checked + .option-label::after {
-   content: "✓";
-   position: absolute;
-   right: 12px;
-   top: 50%;
-   transform: translateY(-50%);
-   color: #1976d2;
-   font-weight: bold;
-   font-size: 1.2rem;
- }
- 
- .option-item input[type="radio"]:checked + .option-label::after {
-   content: "●";
-   position: absolute;
-   right: 12px;
-   top: 50%;
-   transform: translateY(-50%);
-   color: #1976d2;
-   font-size: 1rem;
- }
- 
- textarea, input[type="text"] {
-   width: 100%;
-   padding: 12px;
-   border: 2px solid #e1e8ed;
-   border-radius: 8px;
-   font-family: inherit;
-   font-size: 1.425rem;
-   box-sizing: border-box;
-   background: white;
- }
- 
- textarea {
-   min-height: 100px;
-   resize: vertical;
- }
- 
- textarea:focus, input[type="text"]:focus {
-   outline: none;
-   border-color: #3498db;
- }
- 
- .example-text {
-   font-size: 1.275rem;
-   color: #7f8c8d;
-   margin-bottom: 8px;
-   font-style: italic;
-   display: none;
- }
- 
- button {
-   width: 100%;
-   margin-top: 24px;
-   padding: 14px 20px;
-   font-size: 1.65rem;
-   font-weight: 600;
-   cursor: pointer;
-   border: none;
-   border-radius: 8px;
-   background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
-   color: white;
-   transition: all 0.2s ease;
-   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
- }
- 
- button:hover {
-   transform: translateY(-1px);
-   box-shadow: 0 4px 8px rgba(0,0,0,0.15);
- }
- 
- button:active {
-   transform: translateY(0);
- }
- 
- #result {
-   display: none;
-   text-align: center;
-   background: white;
-   padding: 24px;
-   border-radius: 12px;
-   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
- }
- 
- #result p {
-   font-size: 1.65rem;
-   margin-bottom: 20px;
-   color: #2c3e50;
- }
- 
- #copyGoBtn {
-   background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
-   margin-top: 16px;
- }
- 
- @media (max-width: 480px) {
-   body { padding: 12px; }
-   h1 { font-size: 1.6rem; }
-   h2 { font-size: 1.3rem; }
-   .option-label { padding: 14px 12px; font-size: 1.1rem; }
-   textarea, input[type="text"] { font-size: 1.1rem; }
-   button { padding: 16px 20px; font-size: 1rem; }
- }
+*{ box-sizing:border-box; }
+
+html{ scroll-behavior:smooth; }
+
+body{
+  margin:0;
+  font-family:'M PLUS Rounded 1c', -apple-system, BlinkMacSystemFont, 'Hiragino Maru Gothic ProN', sans-serif;
+  background:
+    radial-gradient(1200px 500px at 50% -200px, #E2F3F1 0%, transparent 70%),
+    var(--paper);
+  color:var(--ink);
+  line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ===== 進捗バー(画面上部に固定) ===== */
+#progressTrack{
+  position:fixed; top:0; left:0; right:0;
+  height:5px;
+  background:var(--line);
+  z-index:100;
+}
+#progressFill{
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg, var(--pine), #67BEB8);
+  border-radius:0 3px 3px 0;
+  transition:width .35s ease;
+}
+
+.wrap{
+  max-width:640px;
+  margin:0 auto;
+  padding:28px 18px 64px;
+}
+
+/* ===== ヘッダー ===== */
+.lang-switcher{
+  display:flex;
+  justify-content:flex-end;
+  margin-bottom:6px;
+}
+.lang-switcher button{
+  appearance:none;
+  padding:7px 18px;
+  font-family:inherit;
+  font-size:.85rem;
+  font-weight:500;
+  border-radius:999px;
+  background:var(--card);
+  color:var(--moss);
+  border:1.5px solid var(--line);
+  cursor:pointer;
+  transition:border-color .15s ease, color .15s ease;
+}
+.lang-switcher button:hover{
+  border-color:var(--pine);
+  color:var(--pine);
+}
+
+header.site{
+  text-align:center;
+  padding:14px 0 30px;
+}
+h1{
+  font-family:inherit;
+  font-weight:800;
+  font-size:1.7rem;
+  line-height:1.45;
+  margin:0 0 8px;
+  color:var(--pine-deep);
+  letter-spacing:.02em;
+}
+.lede{
+  margin:0;
+  font-size:1rem;
+  color:var(--moss);
+}
+
+/* ===== 質問カード ===== */
+.q-card{
+  background:var(--card);
+  border:1.5px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:22px 20px 20px;
+  margin-bottom:22px;
+  transition:border-color .25s ease, box-shadow .25s ease;
+}
+.q-card.invalid{
+  border-color:var(--alert);
+  box-shadow:0 0 0 3px rgba(182,66,44,.12);
+}
+
+.q-head{
+  display:flex;
+  align-items:flex-start;
+  gap:12px;
+  margin-bottom:6px;
+}
+.q-badge{
+  flex:none;
+  display:grid;
+  place-items:center;
+  width:34px; height:34px;
+  margin-top:2px;
+  border-radius:10px;
+  background:var(--leaf);
+  color:var(--pine);
+  font-family:inherit;
+  font-weight:700;
+  font-size:.95rem;
+  transition:background .25s ease, color .25s ease;
+}
+.q-card.done .q-badge{
+  background:var(--pine);
+  color:#fff;
+}
+.q-card.done .q-badge::before{ content:"✓"; }
+.q-card.done .q-badge span{ display:none; }
+
+h2{
+  margin:0;
+  font-family:inherit;
+  font-size:1.22rem;
+  font-weight:700;
+  line-height:1.5;
+  color:var(--ink);
+}
+.tag{
+  display:inline-block;
+  vertical-align:2px;
+  margin-left:8px;
+  padding:1px 9px;
+  border-radius:999px;
+  font-family:inherit;
+  font-size:.72rem;
+  font-weight:700;
+  letter-spacing:.04em;
+  white-space:nowrap;
+}
+.tag.req{ background:#FBEAE5; color:var(--alert); }
+.tag.opt{ background:#EEF2EF; color:var(--moss); }
+
+.invalid-msg{
+  display:none;
+  margin:4px 0 10px 46px;
+  font-size:.9rem;
+  font-weight:700;
+  color:var(--alert);
+}
+.q-card.invalid .invalid-msg{ display:block; }
+
+/* ===== 選択肢 ===== */
+.option-group{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin-top:14px;
+}
+.option-item{ position:relative; }
+.option-item input{
+  position:absolute;
+  opacity:0;
+  pointer-events:none;
+}
+.option-label{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  min-height:56px;
+  padding:13px 16px;
+  background:var(--card);
+  border:1.5px solid var(--line);
+  border-radius:12px;
+  cursor:pointer;
+  font-size:1.12rem;
+  line-height:1.5;
+  transition:border-color .15s ease, background .15s ease;
+  user-select:none;
+}
+.option-label:hover{ border-color:var(--pine); }
+
+/* 左側のラジオ/チェック表示 */
+.option-label::before{
+  content:"";
+  flex:none;
+  width:24px; height:24px;
+  border:2px solid #B3CDCA;
+  background:#fff;
+  transition:all .15s ease;
+}
+.option-item input[type="radio"] + .option-label::before{ border-radius:50%; }
+.option-item input[type="checkbox"] + .option-label::before{ border-radius:7px; }
+
+.option-item input:checked + .option-label{
+  border-color:var(--pine);
+  background:var(--leaf);
+  font-weight:700;
+  color:var(--pine-deep);
+}
+.option-item input[type="radio"]:checked + .option-label::before{
+  border-color:var(--pine);
+  background:radial-gradient(circle, var(--pine) 0 46%, #fff 52% 100%);
+}
+.option-item input[type="checkbox"]:checked + .option-label::before{
+  border-color:var(--pine);
+  background:var(--pine) url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14"><path d="M2.5 7.5l3 3 6-7" stroke="white" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>') center/14px no-repeat;
+}
+.option-item input:focus-visible + .option-label{
+  outline:3px solid rgba(44,140,132,.45);
+  outline-offset:2px;
+}
+
+/* ===== 自由記述 ===== */
+.example-text{
+  display:none;
+  margin:14px 0 0;
+  padding:12px 14px;
+  border-left:3px solid var(--pine);
+  background:var(--leaf);
+  border-radius:0 10px 10px 0;
+  font-size:.98rem;
+  color:var(--pine-deep);
+}
+
+textarea, input[type="text"]{
+  width:100%;
+  margin-top:14px;
+  padding:14px;
+  border:1.5px solid var(--line);
+  border-radius:12px;
+  font-family:inherit;
+  font-size:1.12rem;
+  line-height:1.6;
+  background:#FCFEFE;
+  color:var(--ink);
+  transition:border-color .15s ease, box-shadow .15s ease;
+}
+textarea{ min-height:120px; resize:vertical; }
+textarea:focus, input[type="text"]:focus{
+  outline:none;
+  border-color:var(--pine);
+  box-shadow:0 0 0 3px rgba(44,140,132,.16);
+}
+::placeholder{ color:#A2BAB7; }
+
+/* ===== 送信ボタン ===== */
+.btn-primary{
+  display:block;
+  width:100%;
+  margin-top:28px;
+  padding:17px 20px;
+  font-family:inherit;
+  font-size:1.25rem;
+  font-weight:700;
+  letter-spacing:.06em;
+  color:#fff;
+  background:linear-gradient(160deg, #36A29A 0%, var(--pine-deep) 100%);
+  border:none;
+  border-radius:14px;
+  cursor:pointer;
+  box-shadow:0 4px 14px rgba(29,106,99,.28);
+  transition:transform .15s ease, box-shadow .15s ease, opacity .15s ease;
+}
+.btn-primary:hover{
+  transform:translateY(-1px);
+  box-shadow:0 6px 18px rgba(29,106,99,.32);
+}
+.btn-primary:active{ transform:translateY(0); }
+.btn-primary:disabled{
+  opacity:.6;
+  cursor:default;
+  transform:none;
+}
+.btn-primary:focus-visible{
+  outline:3px solid rgba(44,140,132,.5);
+  outline-offset:3px;
+}
+
+/* ===== 完了画面 ===== */
+#result{
+  display:none;
+  text-align:center;
+  background:var(--card);
+  border:1.5px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:44px 26px;
+  margin-top:24px;
+}
+.done-mark{
+  display:grid;
+  place-items:center;
+  width:72px; height:72px;
+  margin:0 auto 18px;
+  border-radius:50%;
+  background:var(--leaf);
+}
+.done-mark svg path{
+  stroke-dasharray:30;
+  stroke-dashoffset:30;
+  animation:draw .6s .15s ease forwards;
+}
+@keyframes draw{ to{ stroke-dashoffset:0; } }
+
+#result p{
+  font-size:1.18rem;
+  margin:0 0 6px;
+  color:var(--ink);
+}
+#copyGoBtn{
+  margin-top:22px;
+}
+
+/* ===== フッター ===== */
+footer{
+  margin-top:36px;
+  text-align:center;
+  font-size:.85rem;
+  color:var(--moss);
+}
+
+/* ===== モバイル ===== */
+@media (max-width:480px){
+  .wrap{ padding:22px 14px 56px; }
+  h1{ font-size:1.42rem; }
+  h2{ font-size:1.1rem; }
+  .q-card{ padding:18px 14px 16px; }
+  .option-label{ font-size:1.05rem; }
+  textarea, input[type="text"]{ font-size:1.05rem; }
+  .invalid-msg{ margin-left:0; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  *{ transition:none !important; animation:none !important; }
+  html{ scroll-behavior:auto; }
+}
 </style>
+</head>
+<body>
 
-<!-- 言語切り替えボタン -->
-<div class="lang-switcher">
-  <button id="langBtn" onclick="toggleLang()">English</button>
-</div>
+<div id="progressTrack"><div id="progressFill"></div></div>
 
-<h1 id="siteTitle">林整形外科クリニック<br>ご来院アンケート</h1>
+<div class="wrap">
 
-<!-- ======= ① アンケートフォーム ======= -->
-<div id="formArea">
-
-  <!-- Q1 -->
-  <h2 class="need" id="q1label">本日はどのような内容でご来院されましたか？</h2>
-  <div class="option-group" id="q1">
-    <div class="option-item"><input type="radio" name="visit" value="首・肩・腰の痛み" id="visit1"><label class="option-label" for="visit1" data-ja="首・肩・腰の痛み" data-en="Neck / Shoulder / Back Pain">首・肩・腰の痛み</label></div>
-    <div class="option-item"><input type="radio" name="visit" value="手・足の痛み" id="visit2"><label class="option-label" for="visit2" data-ja="手・足の痛み" data-en="Hand / Foot / Leg Pain">手・足の痛み</label></div>
-    <div class="option-item"><input type="radio" name="visit" value="怪我" id="visit3"><label class="option-label" for="visit3" data-ja="怪我" data-en="Injury / Fracture">怪我</label></div>
-    <div class="option-item"><input type="radio" name="visit" value="小児整形外科" id="visit4"><label class="option-label" for="visit4" data-ja="小児整形外科" data-en="Pediatric Orthopedics">小児整形外科</label></div>
-    <div class="option-item"><input type="radio" name="visit" value="関節リウマチ" id="visit5"><label class="option-label" for="visit5" data-ja="関節リウマチ" data-en="Rheumatoid Arthritis">関節リウマチ</label></div>
-    <div class="option-item"><input type="radio" name="visit" value="骨粗しょう症" id="visit6"><label class="option-label" for="visit6" data-ja="骨粗しょう症" data-en="Osteoporosis">骨粗しょう症</label></div>
-    <div class="option-item"><input type="radio" name="visit" value="その他" id="visit7"><label class="option-label" for="visit7" data-ja="その他" data-en="Other">その他</label></div>
+  <div class="lang-switcher">
+    <button id="langBtn" onclick="toggleLang()">English</button>
   </div>
 
-  <!-- Q2 -->
-  <h2 class="need" id="q2label">当院を何で知っていただけましたか？</h2>
-  <div class="option-group" id="q2">
-    <div class="option-item"><input type="radio" name="disc" value="ホームページ" id="disc1"><label class="option-label" for="disc1" data-ja="ホームページ" data-en="Official Website">ホームページ</label></div>
-    <div class="option-item"><input type="radio" name="disc" value="Googleマップ" id="disc2"><label class="option-label" for="disc2" data-ja="Googleマップ" data-en="Google Maps">Googleマップ</label></div>
-    <div class="option-item"><input type="radio" name="disc" value="melmo" id="disc3"><label class="option-label" for="disc3" data-ja="melmo" data-en="melmo">melmo</label></div>
-    <div class="option-item"><input type="radio" name="disc" value="SNS" id="disc4"><label class="option-label" for="disc4" data-ja="SNS（Instagram、Facebook、X）" data-en="Social Media (Instagram / Facebook / X)">SNS（Instagram、Facebook、X）</label></div>
-    <div class="option-item"><input type="radio" name="disc" value="知人の紹介" id="disc5"><label class="option-label" for="disc5" data-ja="知人の紹介" data-en="Referred by a Friend / Acquaintance">知人の紹介</label></div>
-    <div class="option-item"><input type="radio" name="disc" value="近所・通りすがり" id="disc6"><label class="option-label" for="disc6" data-ja="近所・通りすがり" data-en="Nearby / Passed By">近所・通りすがり</label></div>
-    <div class="option-item"><input type="radio" name="disc" value="その他" id="disc7"><label class="option-label" for="disc7" data-ja="その他" data-en="Other">その他</label></div>
+  <header class="site">
+    <h1 id="siteTitle">林整形外科クリニック<br>ご来院アンケート</h1>
+    <p class="lede" id="siteLede">所要時間は1分ほどです。よりよい診療のためにご協力ください。</p>
+  </header>
+
+  <!-- ======= ① アンケートフォーム ======= -->
+  <div id="formArea">
+
+    <!-- Q1 -->
+    <section class="q-card" id="card-q1">
+      <div class="q-head">
+        <div class="q-badge"><span>1</span></div>
+        <h2 id="q1label"><span class="q-text">本日はどのような内容でご来院されましたか？</span><span class="tag req" data-role="req">必須</span></h2>
+      </div>
+      <p class="invalid-msg" data-role="invalidMsg">1つ選択してください</p>
+      <div class="option-group" id="q1">
+        <div class="option-item"><input type="radio" name="visit" value="首・肩・腰の痛み" id="visit1"><label class="option-label" for="visit1" data-ja="首・肩・腰の痛み" data-en="Neck / Shoulder / Back Pain">首・肩・腰の痛み</label></div>
+        <div class="option-item"><input type="radio" name="visit" value="手・足の痛み" id="visit2"><label class="option-label" for="visit2" data-ja="手・足の痛み" data-en="Hand / Foot / Leg Pain">手・足の痛み</label></div>
+        <div class="option-item"><input type="radio" name="visit" value="怪我" id="visit3"><label class="option-label" for="visit3" data-ja="怪我" data-en="Injury / Fracture">怪我</label></div>
+        <div class="option-item"><input type="radio" name="visit" value="小児整形外科" id="visit4"><label class="option-label" for="visit4" data-ja="小児整形外科" data-en="Pediatric Orthopedics">小児整形外科</label></div>
+        <div class="option-item"><input type="radio" name="visit" value="関節リウマチ" id="visit5"><label class="option-label" for="visit5" data-ja="関節リウマチ" data-en="Rheumatoid Arthritis">関節リウマチ</label></div>
+        <div class="option-item"><input type="radio" name="visit" value="骨粗しょう症" id="visit6"><label class="option-label" for="visit6" data-ja="骨粗しょう症" data-en="Osteoporosis">骨粗しょう症</label></div>
+        <div class="option-item"><input type="radio" name="visit" value="その他" id="visit7"><label class="option-label" for="visit7" data-ja="その他" data-en="Other">その他</label></div>
+      </div>
+    </section>
+
+    <!-- Q2 -->
+    <section class="q-card" id="card-q2">
+      <div class="q-head">
+        <div class="q-badge"><span>2</span></div>
+        <h2 id="q2label"><span class="q-text">当院を何で知っていただけましたか？</span><span class="tag req" data-role="req">必須</span></h2>
+      </div>
+      <p class="invalid-msg" data-role="invalidMsg">1つ選択してください</p>
+      <div class="option-group" id="q2">
+        <div class="option-item"><input type="radio" name="disc" value="ホームページ" id="disc1"><label class="option-label" for="disc1" data-ja="ホームページ" data-en="Official Website">ホームページ</label></div>
+        <div class="option-item"><input type="radio" name="disc" value="Googleマップ" id="disc2"><label class="option-label" for="disc2" data-ja="Googleマップ" data-en="Google Maps">Googleマップ</label></div>
+        <div class="option-item"><input type="radio" name="disc" value="melmo" id="disc3"><label class="option-label" for="disc3" data-ja="melmo" data-en="melmo">melmo</label></div>
+        <div class="option-item"><input type="radio" name="disc" value="SNS" id="disc4"><label class="option-label" for="disc4" data-ja="SNS（Instagram、Facebook、X）" data-en="Social Media (Instagram / Facebook / X)">SNS（Instagram、Facebook、X）</label></div>
+        <div class="option-item"><input type="radio" name="disc" value="知人の紹介" id="disc5"><label class="option-label" for="disc5" data-ja="知人の紹介" data-en="Referred by a Friend / Acquaintance">知人の紹介</label></div>
+        <div class="option-item"><input type="radio" name="disc" value="近所・通りすがり" id="disc6"><label class="option-label" for="disc6" data-ja="近所・通りすがり" data-en="Nearby / Passed By">近所・通りすがり</label></div>
+        <div class="option-item"><input type="radio" name="disc" value="その他" id="disc7"><label class="option-label" for="disc7" data-ja="その他" data-en="Other">その他</label></div>
+      </div>
+    </section>
+
+    <!-- Q3 -->
+    <section class="q-card" id="card-q3">
+      <div class="q-head">
+        <div class="q-badge"><span>3</span></div>
+        <h2 id="q3label"><span class="q-text">数あるクリニックの中で、何故当院をお選びいただけましたか？（複数選択可）</span><span class="tag req" data-role="req">必須</span></h2>
+      </div>
+      <p class="invalid-msg" data-role="invalidMsg">1つ以上選択してください</p>
+      <div class="option-group" id="q3">
+        <div class="option-item"><input type="checkbox" value="当院の雰囲気や空間" id="choose1"><label class="option-label" for="choose1" data-ja="当院の雰囲気や空間" data-en="Clinic Atmosphere &amp; Environment">当院の雰囲気や空間</label></div>
+        <div class="option-item"><input type="checkbox" value="ドクターの経験や実績" id="choose2"><label class="option-label" for="choose2" data-ja="ドクターの経験や実績" data-en="Doctor's Experience &amp; Track Record">ドクターの経験や実績</label></div>
+        <div class="option-item"><input type="checkbox" value="インターネットの口コミを見て" id="choose3"><label class="option-label" for="choose3" data-ja="インターネットの口コミを見て" data-en="Online Reviews">インターネットの口コミを見て</label></div>
+        <div class="option-item"><input type="checkbox" value="紹介されたから" id="choose4"><label class="option-label" for="choose4" data-ja="紹介されたから" data-en="Recommended by Someone">紹介されたから</label></div>
+        <div class="option-item"><input type="checkbox" value="通いやすいから（場所）" id="choose5"><label class="option-label" for="choose5" data-ja="通いやすいから（場所）" data-en="Convenient Location">通いやすいから（場所）</label></div>
+        <div class="option-item"><input type="checkbox" value="通いやすいから（診療時間）" id="choose6"><label class="option-label" for="choose6" data-ja="通いやすいから（診療時間）" data-en="Convenient Hours">通いやすいから（診療時間）</label></div>
+        <div class="option-item"><input type="checkbox" value="スタッフの対応が良い" id="choose7"><label class="option-label" for="choose7" data-ja="スタッフの対応が良い" data-en="Friendly Staff">スタッフの対応が良い</label></div>
+        <div class="option-item"><input type="checkbox" value="その他" id="choose8"><label class="option-label" for="choose8" data-ja="その他" data-en="Other">その他</label></div>
+      </div>
+    </section>
+
+    <!-- Q4 -->
+    <section class="q-card" id="card-q4">
+      <div class="q-head">
+        <div class="q-badge"><span>4</span></div>
+        <h2 id="q4label"><span class="q-text">林整形外科クリニックをお知り合いなどにおすすめしたいと思いますか？</span><span class="tag req" data-role="req">必須</span></h2>
+      </div>
+      <p class="invalid-msg" data-role="invalidMsg">1つ選択してください</p>
+      <div class="option-group" id="q4">
+        <div class="option-item"><input type="radio" name="reco" value="とても紹介したい" id="reco1"><label class="option-label" for="reco1" data-ja="とても紹介したい" data-en="Definitely Would Recommend">とても紹介したい</label></div>
+        <div class="option-item"><input type="radio" name="reco" value="紹介したい" id="reco2"><label class="option-label" for="reco2" data-ja="紹介したい" data-en="Would Recommend">紹介したい</label></div>
+        <div class="option-item"><input type="radio" name="reco" value="紹介したくない" id="reco3"><label class="option-label" for="reco3" data-ja="紹介したくない" data-en="Would Not Recommend">紹介したくない</label></div>
+        <div class="option-item"><input type="radio" name="reco" value="とても紹介したくない" id="reco4"><label class="option-label" for="reco4" data-ja="とても紹介したくない" data-en="Definitely Would Not Recommend">とても紹介したくない</label></div>
+      </div>
+    </section>
+
+    <!-- コメント -->
+    <section class="q-card">
+      <div class="q-head">
+        <div class="q-badge"><span>5</span></div>
+        <h2><span class="q-text" id="commentLabel">おすすめするポイント</span><span class="tag opt" id="commentTag">任意</span></h2>
+      </div>
+      <div class="example-text" id="exampleText"></div>
+      <textarea id="comment" placeholder="ご自由にお書きください"></textarea>
+    </section>
+
+    <!-- お名前 -->
+    <section class="q-card">
+      <div class="q-head">
+        <div class="q-badge"><span>6</span></div>
+        <h2><span class="q-text" id="nameLabel">お名前</span><span class="tag opt" id="nameTag">任意</span></h2>
+      </div>
+      <input type="text" id="name" placeholder="匿名でも回答できます">
+    </section>
+
+    <button class="btn-primary" id="sendBtn">回答を送信する</button>
   </div>
 
-  <!-- Q3 -->
-  <h2 class="need" id="q3label">数あるクリニックの中で、何故当院をお選びいただけましたか？（複数選択可）</h2>
-  <div class="option-group" id="q3">
-    <div class="option-item"><input type="checkbox" value="当院の雰囲気や空間" id="choose1"><label class="option-label" for="choose1" data-ja="当院の雰囲気や空間" data-en="Clinic Atmosphere &amp; Environment">当院の雰囲気や空間</label></div>
-    <div class="option-item"><input type="checkbox" value="ドクターの経験や実績" id="choose2"><label class="option-label" for="choose2" data-ja="ドクターの経験や実績" data-en="Doctor's Experience &amp; Track Record">ドクターの経験や実績</label></div>
-    <div class="option-item"><input type="checkbox" value="インターネットの口コミを見て" id="choose3"><label class="option-label" for="choose3" data-ja="インターネットの口コミを見て" data-en="Online Reviews">インターネットの口コミを見て</label></div>
-    <div class="option-item"><input type="checkbox" value="紹介されたから" id="choose4"><label class="option-label" for="choose4" data-ja="紹介されたから" data-en="Recommended by Someone">紹介されたから</label></div>
-    <div class="option-item"><input type="checkbox" value="通いやすいから（場所）" id="choose5"><label class="option-label" for="choose5" data-ja="通いやすいから（場所）" data-en="Convenient Location">通いやすいから（場所）</label></div>
-    <div class="option-item"><input type="checkbox" value="通いやすいから（診療時間）" id="choose6"><label class="option-label" for="choose6" data-ja="通いやすいから（診療時間）" data-en="Convenient Hours">通いやすいから（診療時間）</label></div>
-    <div class="option-item"><input type="checkbox" value="スタッフの対応が良い" id="choose7"><label class="option-label" for="choose7" data-ja="スタッフの対応が良い" data-en="Friendly Staff">スタッフの対応が良い</label></div>
-    <div class="option-item"><input type="checkbox" value="その他" id="choose8"><label class="option-label" for="choose8" data-ja="その他" data-en="Other">その他</label></div>
+  <!-- ======= ② 結果表示エリア ======= -->
+  <div id="result">
+    <div class="done-mark" aria-hidden="true">
+      <svg width="34" height="34" viewBox="0 0 34 34" fill="none">
+        <path d="M7 18l7 7 13-15" stroke="#2C8C84" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <p id="msg"></p>
+    <button class="btn-primary" id="copyGoBtn" style="display:none;"></button>
   </div>
 
-  <!-- Q4 -->
-  <h2 class="need" id="q4label">林整形外科クリニックをお知り合いなどにおすすめしたいと思いますか？</h2>
-  <div class="option-group" id="q4">
-    <div class="option-item"><input type="radio" name="reco" value="とても紹介したい" id="reco1"><label class="option-label" for="reco1" data-ja="とても紹介したい" data-en="Definitely Would Recommend">とても紹介したい</label></div>
-    <div class="option-item"><input type="radio" name="reco" value="紹介したい" id="reco2"><label class="option-label" for="reco2" data-ja="紹介したい" data-en="Would Recommend">紹介したい</label></div>
-    <div class="option-item"><input type="radio" name="reco" value="紹介したくない" id="reco3"><label class="option-label" for="reco3" data-ja="紹介したくない" data-en="Would Not Recommend">紹介したくない</label></div>
-    <div class="option-item"><input type="radio" name="reco" value="とても紹介したくない" id="reco4"><label class="option-label" for="reco4" data-ja="とても紹介したくない" data-en="Definitely Would Not Recommend">とても紹介したくない</label></div>
-  </div>
+  <footer id="siteFooter">林整形外科クリニック</footer>
 
-  <!-- コメント -->
-  <h2 id="commentLabel">おすすめするポイント（任意）</h2>
-  <div class="example-text" id="exampleText"></div>
-  <textarea id="comment" placeholder="ご自由にお書きください"></textarea>
-
-  <!-- お名前 -->
-  <h2 id="nameLabel">お名前（任意）</h2>
-  <input type="text" id="name" placeholder="匿名でも回答できます">
-
-  <button id="sendBtn">送信</button>
-</div>
-
-<!-- ======= ② 結果表示エリア ======= -->
-<div id="result">
-  <p id="msg"></p>
-  <button id="copyGoBtn" style="display:none;"></button>
 </div>
 
 <script>
@@ -299,17 +502,22 @@ const T = {
   ja: {
     pageTitle:    '林整形外科クリニック アンケート',
     siteTitle:    '林整形外科クリニック<br>ご来院アンケート',
+    siteLede:     '所要時間は1分ほどです。よりよい診療のためにご協力ください。',
     langBtn:      'English',
     q1:    '本日はどのような内容でご来院されましたか？',
     q2:    '当院を何で知っていただけましたか？',
     q3:    '数あるクリニックの中で、何故当院をお選びいただけましたか？（複数選択可）',
     q4:    '林整形外科クリニックをお知り合いなどにおすすめしたいと思いますか？',
-    commentLabel: 'おすすめするポイント（任意）',
+    req:          '必須',
+    opt:          '任意',
+    invalidSingle: '1つ選択してください',
+    invalidMulti:  '1つ以上選択してください',
+    commentLabel: 'おすすめするポイント',
     commentPlaceholder: 'ご自由にお書きください',
-    nameLabel:    'お名前（任意）',
+    nameLabel:    'お名前',
     namePlaceholder: '匿名でも回答できます',
-    sendBtn:      '送信',
-    alertMsg:     '必須項目が未入力です',
+    sendBtn:      '回答を送信する',
+    sending:      '送信中…',
     resultPositive: 'アンケートにご協力ありがとうございました。もしよろしければ、Google への口コミ投稿にもご協力お願いします！',
     resultNegative: 'アンケートにご協力ありがとうございました。',
     copyGoBtn:    'コピーして Google へ',
@@ -317,17 +525,22 @@ const T = {
   en: {
     pageTitle:    'Hayashi Orthopedic Clinic – Survey',
     siteTitle:    'Hayashi Orthopedic Clinic<br>Patient Survey',
+    siteLede:     'Takes about 1 minute. Your feedback helps us improve.',
     langBtn:      '日本語',
     q1:    'What brought you to our clinic today?',
     q2:    'How did you hear about us?',
     q3:    'Why did you choose our clinic? (Multiple answers OK)',
     q4:    'Would you recommend Hayashi Orthopedic Clinic to others?',
-    commentLabel: 'What did you like? (Optional)',
+    req:          'Required',
+    opt:          'Optional',
+    invalidSingle: 'Please select one',
+    invalidMulti:  'Please select at least one',
+    commentLabel: 'What did you like?',
     commentPlaceholder: 'Feel free to share your thoughts',
-    nameLabel:    'Your Name (Optional)',
+    nameLabel:    'Your Name',
     namePlaceholder: 'Anonymous responses are welcome',
     sendBtn:      'Submit',
-    alertMsg:     'Please answer all required questions.',
+    sending:      'Sending…',
     resultPositive: 'Thank you for completing the survey! If you have a moment, we would greatly appreciate a Google review.',
     resultNegative: 'Thank you for completing the survey.',
     copyGoBtn:    'Copy & Go to Google',
@@ -344,32 +557,36 @@ function toggleLang() {
 function applyLang() {
   const t = T[lang];
 
-  /* ページタイトル */
   document.title = t.pageTitle;
-
-  /* サイト見出し */
   document.getElementById('siteTitle').innerHTML = t.siteTitle;
-
-  /* 切り替えボタン */
+  document.getElementById('siteLede').textContent = t.siteLede;
   document.getElementById('langBtn').textContent = t.langBtn;
 
   /* 質問ラベル */
   ['q1','q2','q3','q4'].forEach(id => {
     const el = document.getElementById(id + 'label');
-    el.childNodes[0].textContent = t[id];
-    // need::after の切り替え
-    if(lang === 'en') el.classList.add('en'); else el.classList.remove('en');
+    el.querySelector('.q-text').textContent = t[id];
+    el.querySelector('[data-role="req"]').textContent = t.req;
   });
 
-  /* 選択肢ラベル（data-ja / data-en を参照） */
+  /* バリデーションメッセージ */
+  document.querySelectorAll('.q-card').forEach(card => {
+    const msg = card.querySelector('[data-role="invalidMsg"]');
+    if(!msg) return;
+    msg.textContent = (card.id === 'card-q3') ? t.invalidMulti : t.invalidSingle;
+  });
+
+  /* 選択肢ラベル */
   document.querySelectorAll('.option-label').forEach(label => {
     label.innerHTML = label.dataset[lang] || label.textContent;
   });
 
   /* コメント・名前エリア */
   document.getElementById('commentLabel').textContent = t.commentLabel;
+  document.getElementById('commentTag').textContent = t.opt;
   document.getElementById('comment').placeholder = t.commentPlaceholder;
   document.getElementById('nameLabel').textContent = t.nameLabel;
+  document.getElementById('nameTag').textContent = t.opt;
   document.getElementById('name').placeholder = t.namePlaceholder;
   document.getElementById('sendBtn').textContent = t.sendBtn;
 
@@ -377,7 +594,7 @@ function applyLang() {
   const exEl = document.getElementById('exampleText');
   if(exEl.style.display !== 'none' && exEl.textContent) {
     const reco = document.querySelector('input[name="reco"]:checked')?.value || '';
-    if(reco.includes('紹介したい')) {
+    if(reco.includes('紹介したい') && !reco.includes('紹介したくない')) {
       exEl.textContent = (lang === 'ja') ? POSITIVE_SAMPLE_JA : POSITIVE_SAMPLE_EN;
     } else {
       exEl.textContent = (lang === 'ja') ? NEGATIVE_SAMPLE_JA : NEGATIVE_SAMPLE_EN;
@@ -389,37 +606,77 @@ function applyLang() {
   if(btn.style.display !== 'none') btn.textContent = t.copyGoBtn;
 }
 
-/* ---------- イベント ---------- */
+/* ---------- ヘルパー ---------- */
 const qs    = s => document.querySelector(s);
 const qsAll = sel => [...document.querySelectorAll(sel)];
 const getRadio  = name => qs(`input[name="${name}"]:checked`)?.value || '';
 const getChecks = id   => qsAll(`#${id} input:checked`).map(c => c.value);
 
+/* ---------- 進捗バー・回答済みバッジ ---------- */
+function updateProgress() {
+  const answered = [
+    !!getRadio('visit'),
+    !!getRadio('disc'),
+    getChecks('q3').length > 0,
+    !!getRadio('reco'),
+  ];
+  answered.forEach((ok, i) => {
+    const card = document.getElementById('card-q' + (i+1));
+    card.classList.toggle('done', ok);
+    if(ok) card.classList.remove('invalid');
+  });
+  const pct = answered.filter(Boolean).length / answered.length * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+}
+
+qsAll('#q1 input, #q2 input, #q3 input, #q4 input').forEach(inp => {
+  inp.addEventListener('change', updateProgress);
+});
+
+/* ---------- Q4 → 例文表示 ---------- */
 qsAll('#q4 input').forEach(r => {
-  r.onchange = () => {
+  r.addEventListener('change', () => {
     const exEl = document.getElementById('exampleText');
-    if(r.value.includes('紹介したい')) {
+    if(r.value === 'とても紹介したい' || r.value === '紹介したい') {
       exEl.textContent = (lang === 'ja') ? POSITIVE_SAMPLE_JA : POSITIVE_SAMPLE_EN;
     } else {
       exEl.textContent = (lang === 'ja') ? NEGATIVE_SAMPLE_JA : NEGATIVE_SAMPLE_EN;
     }
     exEl.style.display = 'block';
-  };
+  });
 });
 
+/* ---------- 送信 ---------- */
 qs('#sendBtn').onclick = async () => {
   const visit  = getRadio('visit');
   const disc   = getRadio('disc');
   const reco   = getRadio('reco');
   const choose = getChecks('q3');
 
-  if(!visit || !disc || !reco || !choose.length) {
-    alert(T[lang].alertMsg);
+  /* 未回答の質問をハイライトして最初の1つへスクロール */
+  const checks = [
+    ['card-q1', !!visit],
+    ['card-q2', !!disc],
+    ['card-q3', choose.length > 0],
+    ['card-q4', !!reco],
+  ];
+  let firstInvalid = null;
+  checks.forEach(([id, ok]) => {
+    const card = document.getElementById(id);
+    card.classList.toggle('invalid', !ok);
+    if(!ok && !firstInvalid) firstInvalid = card;
+  });
+  if(firstInvalid) {
+    firstInvalid.scrollIntoView({ behavior:'smooth', block:'center' });
     return;
   }
 
   const comment = qs('#comment').value.trim();
   const name    = qs('#name').value.trim();
+
+  const sendBtn = qs('#sendBtn');
+  sendBtn.disabled = true;
+  sendBtn.textContent = T[lang].sending;
 
   fetch(WEBHOOK, {
     method: 'POST',
@@ -438,12 +695,13 @@ qs('#sendBtn').onclick = async () => {
 
   qs('#formArea').style.display = 'none';
   qs('#result').style.display   = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 
   const t   = T[lang];
   const msg = qs('#msg');
   const btn = qs('#copyGoBtn');
 
-  if(reco.includes('紹介したい')) {
+  if(reco === 'とても紹介したい' || reco === '紹介したい') {
     msg.textContent         = t.resultPositive;
     btn.textContent         = t.copyGoBtn;
     btn.style.display       = 'inline-block';
@@ -457,3 +715,5 @@ qs('#sendBtn').onclick = async () => {
   }
 };
 </script>
+</body>
+</html>

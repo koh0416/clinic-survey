@@ -513,6 +513,7 @@ const T = {
     invalidSingle: '1つ選択してください',
     invalidMulti:  '1つ以上選択してください',
     commentLabel: 'おすすめするポイント',
+    commentLabelNegative: '改善してほしいポイント',
     commentPlaceholder: 'ご自由にお書きください',
     nameLabel:    'お名前',
     namePlaceholder: '匿名でも回答できます',
@@ -536,6 +537,7 @@ const T = {
     invalidSingle: 'Please select one',
     invalidMulti:  'Please select at least one',
     commentLabel: 'What did you like?',
+    commentLabelNegative: 'What could we improve?',
     commentPlaceholder: 'Feel free to share your thoughts',
     nameLabel:    'Your Name',
     namePlaceholder: 'Anonymous responses are welcome',
@@ -582,7 +584,7 @@ function applyLang() {
   });
 
   /* コメント・名前エリア */
-  document.getElementById('commentLabel').textContent = t.commentLabel;
+  updateCommentLabel();
   document.getElementById('commentTag').textContent = t.opt;
   document.getElementById('comment').placeholder = t.commentPlaceholder;
   document.getElementById('nameLabel').textContent = t.nameLabel;
@@ -633,7 +635,19 @@ qsAll('#q1 input, #q2 input, #q3 input, #q4 input').forEach(inp => {
   inp.addEventListener('change', updateProgress);
 });
 
-/* ---------- Q4 → 例文表示 ---------- */
+/* ---------- Q5 タイトル切替(Q4の回答に応じて) ---------- */
+function isNegativeReco() {
+  const reco = document.querySelector('input[name="reco"]:checked')?.value || '';
+  return reco === '紹介したくない' || reco === 'とても紹介したくない';
+}
+
+function updateCommentLabel() {
+  const t = T[lang];
+  document.getElementById('commentLabel').textContent =
+    isNegativeReco() ? t.commentLabelNegative : t.commentLabel;
+}
+
+/* ---------- Q4 → 例文表示・Q5タイトル切替 ---------- */
 qsAll('#q4 input').forEach(r => {
   r.addEventListener('change', () => {
     const exEl = document.getElementById('exampleText');
@@ -643,6 +657,7 @@ qsAll('#q4 input').forEach(r => {
       exEl.textContent = (lang === 'ja') ? NEGATIVE_SAMPLE_JA : NEGATIVE_SAMPLE_EN;
     }
     exEl.style.display = 'block';
+    updateCommentLabel();
   });
 });
 
